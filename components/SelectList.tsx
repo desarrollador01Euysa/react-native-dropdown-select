@@ -106,6 +106,7 @@ const SelectList: React.FC<SelectListProps> = ({
 
     }, [defaultOption])
 
+    
     React.useEffect(() => {
         if (!_firstRender) {
             if (dropdownShown)

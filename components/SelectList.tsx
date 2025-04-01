@@ -129,13 +129,14 @@ const SelectList: React.FC<SelectListProps> = ({
 
     }, [defaultName])
 
+    const wrapperStyle = search ? [styles.wrapper, boxStyles] : [styles.blockedWrapper, boxStyles];
 
     return (
         <View>
             {
                 (dropdown && search)
                     ?
-                    <View style={[styles.wrapper, boxStyles]}>
+                    <View style={[wrapperStyle]}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                             {
                                 (!searchicon)
@@ -184,7 +185,7 @@ const SelectList: React.FC<SelectListProps> = ({
                     <TouchableOpacity style={[styles.wrapper, boxStyles]} onPress={() => { if (!dropdown) { Keyboard.dismiss(); slidedown() } else { slideup() } }}>
                         <Text
                             style={[
-                                { fontFamily },
+                                { fontFamily, color: search === false ? '#bebebe' : 'black'},
                                 inputStyles,
                                 selectedval === "" ? styles.placeholderStyle : null, 
                             ]}
@@ -218,6 +219,7 @@ const SelectList: React.FC<SelectListProps> = ({
                                     filtereddata.map((item: L1Keys, index: number) => {
                                         let key = item.key ?? item.value ?? item;
                                         let value = item.value ?? item;
+                                        let Item = item ?? item;;
                                         let disabled = item.disabled ?? false;
                                         if (disabled) {
                                             return (
@@ -230,8 +232,11 @@ const SelectList: React.FC<SelectListProps> = ({
                                                 <TouchableOpacity style={[styles.option, dropdownItemStyles]} key={index} onPress={() => {
                                                     if (save === 'value') {
                                                         setSelected(value);
-                                                    } else {
+                                                    } else if (save === 'key') {
                                                         setSelected(key)
+                                                    }
+                                                    else{
+                                                        setSelected(Item)
                                                     }
 
                                                     setSelectedVal(value)
@@ -253,7 +258,8 @@ const SelectList: React.FC<SelectListProps> = ({
                                         setTimeout(() => setFilteredData(data), 800)
 
                                     }}>
-                                        <Text style={[{ fontFamily }, dropdownTextStyles]}>{notFoundText}</Text>
+                                        <Text style={[{ fontFamily }, dropdownTextStyles]}
+                                         >{notFoundText}</Text>
                                     </TouchableOpacity>
                             }
 
@@ -285,7 +291,18 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: '#ccc',
-
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: 40,
+        marginBottom: 10,
+        paddingLeft: 10,
+        fontSize: 16,
+    },
+    blockedWrapper: {
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#ccc',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

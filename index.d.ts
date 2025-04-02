@@ -103,7 +103,7 @@ export interface SelectListProps  {
     /**
     * What to store inside your local state (key or value)
     */
-    save?: 'key' | 'value',
+    save?: 'key' | 'value' | 'item',
 
     /**
     * Control the dropdown with this prop
